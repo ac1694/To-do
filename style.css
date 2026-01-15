@@ -1,0 +1,126 @@
+/* Reset */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont,
+               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Layout */
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #ffffff;
+}
+
+#toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #f9f9f9;
+}
+
+#toolbar button {
+  font-size: 13px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+#fontSizeInput {
+  width: 50px;
+  padding: 4px;
+  font-size: 13px;
+}
+
+
+#checkBtn {
+  font-size: 13px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+/* Editor */
+#editor {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  outline: none;
+}
+
+/* Lines */
+.line {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.line input[type="checkbox"] {
+  margin-top: 4px;
+}
+
+/* Editable text */
+.line span {
+  flex: 1;
+  min-height: 20px;
+  outline: none;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Optional: checked style */
+.line input[type="checkbox"]:checked + span {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* ===== TIMER ===== */
+#timer {
+  border-top: 1px solid #e0e0e0;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: #fafafa;
+}
+
+/* Time display (HH:MM:SS like Google timer) */
+#timeInput {
+  font-size: 32px;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  text-align: center;
+  width: 180px;
+  background: transparent;
+  letter-spacing: 1px;
+}
+
+/* Buttons container */
+#timerButtons {
+  display: flex;
+  gap: 12px;
+}
+
+/* Play / Pause button */
+#playBtn {
+  font-size: 18px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+
+/* Mute button */
+#muteBtn {
+  font-size: 16px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
