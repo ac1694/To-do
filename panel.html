@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Notes</title>
+  <title>Notify</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -10,22 +10,15 @@
   <div id="toolbar">
     <button id="checkBtn">Checklist</button>
 
-    <input
-      id="fontSizeInput"
-      type="number"
-      min="8"
-      max="72"
-      placeholder="Size"
-    />
-
     <button id="boldBtn"><b>B</b></button>
     <button id="italicBtn"><i>I</i></button>
     <button id="underlineBtn"><u>U</u></button>
     <button id="highlightBtn">🖍</button>
+    <button id="clearBtn" title="Clear all notes">🗑</button>
+
   </div>
 
-  <div id="editor" contenteditable="true"></div>
-
+<div id="editor" tabindex="0"></div>
   <div id="timer">
     <input id="timeInput" value="00:05:00" />
     <div id="timerButtons">
@@ -35,7 +28,6 @@
     <audio id="alarmSound" src="alarm.mp3"></audio>
   </div>
 
-  <!-- SCRIPT MUST BE LAST -->
   <script src="panel.js"></script>
 </body>
 </html>

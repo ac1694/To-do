@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ================= ELEMENTS ================= */
   const editor = document.getElementById("editor");
   const checkBtn = document.getElementById("checkBtn");
+  const clearBtn = document.getElementById("clearBtn");
 
-  const fontSizeInput = document.getElementById("fontSizeInput");
   const boldBtn = document.getElementById("boldBtn");
   const italicBtn = document.getElementById("italicBtn");
   const underlineBtn = document.getElementById("underlineBtn");
@@ -19,9 +19,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let checklistMode = false;
 
   chrome.storage.local.get(["notesContent"], (res) => {
-    if (res.notesContent) {
+    if (res.notesContent && res.notesContent.trim() !== "") {
       editor.innerHTML = res.notesContent;
-    } else {
+    }
+
+    // Ensure at least one valid line exists
+    if (!editor.querySelector(".line")) {
       createTextLine();
     }
   });
@@ -33,14 +36,27 @@ document.addEventListener("DOMContentLoaded", () => {
     checkBtn.textContent = checklistMode ? "Checklist ✓" : "Checklist";
   };
 
+  /* ================= KEY HANDLING ================= */
   editor.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       createTextLine();
       return;
     }
+
     if (e.key === "Backspace") {
       handleBackspace(e);
+
+      // Remove stray browser-created nodes
+      editor.querySelectorAll("div:not(.line)").forEach(d => {
+        if (d.innerHTML.trim() === "") d.remove();
+      });
+    }
+  });
+
+  editor.addEventListener("click", () => {
+    if (!editor.querySelector(".line")) {
+      createTextLine();
     }
   });
 
@@ -110,7 +126,16 @@ document.addEventListener("DOMContentLoaded", () => {
     saveNotes();
   }
 
-  /* ================= FORMATTING (RELIABLE) ================= */
+  /* ================= CLEAR BUTTON ================= */
+  clearBtn.onclick = () => {
+    if (!confirm("Clear all notes?")) return;
+
+    editor.innerHTML = "";
+    chrome.storage.local.remove("notesContent");
+    createTextLine();
+  };
+
+  /* ================= FORMATTING ================= */
   function focusEditor() {
     editor.focus();
   }
@@ -138,52 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.execCommand("hiliteColor", false, "yellow");
     saveNotes();
   };
-
-  fontSizeInput.addEventListener("input", () => {
-  const size = parseInt(fontSizeInput.value, 10);
-  if (isNaN(size)) return;
-
-  editor.focus();
-
-  const sel = window.getSelection();
-  let range;
-
-  if (sel.rangeCount && !sel.isCollapsed) {
-    // Use existing selection
-    range = sel.getRangeAt(0);
-  } else {
-    // No selection → apply to current line
-    const node = sel.anchorNode;
-    if (!node) return;
-
-    const span = node.nodeType === 3
-      ? node.parentElement
-      : node;
-
-    if (!span || span.tagName !== "SPAN") return;
-
-    range = document.createRange();
-    range.selectNodeContents(span);
-
-    sel.removeAllRanges();
-    sel.addRange(range);
-  }
-
-  // Apply temp font size
-  document.execCommand("fontSize", false, "7");
-
-  // Convert to real px
-  editor.querySelectorAll("font[size='7']").forEach(font => {
-    font.removeAttribute("size");
-    font.style.fontSize = `${size}px`;
-  });
-
-  // Restore caret to end of the line
-  sel.collapseToEnd();
-
-  saveNotes();
-});
-
 
   /* ================= TIMER ================= */
   let remainingSeconds = 0;
@@ -267,4 +246,5 @@ document.addEventListener("DOMContentLoaded", () => {
       sec % 60
     ].map(n => String(n).padStart(2, "0")).join(":");
   }
+
 });
