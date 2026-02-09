@@ -1,4 +1,4 @@
-/* ===== RESET ===== */
+/* reset */
 * {
   box-sizing: border-box;
 }
@@ -11,7 +11,7 @@ html, body {
                "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* ===== LAYOUT ===== */
+/* layout*/
 body {
   display: flex;
   flex-direction: column;
@@ -19,7 +19,7 @@ body {
   background: #ffffff;
 }
 
-/* ===== TOOLBAR ===== */
+/* toolbar*/
 #toolbar {
   display: flex;
   align-items: center;
@@ -55,7 +55,7 @@ body {
   text-align: center;
 }
 
-/* ===== EDITOR ===== */
+/*editor */
 #editor {
   flex: 1;
   padding: 10px;
@@ -63,7 +63,7 @@ body {
   outline: none;
 }
 
-/* ===== LINES ===== */
+/* lines */
 .line {
   display: flex;
   align-items: flex-start;
@@ -91,7 +91,7 @@ body {
   color: #888;
 }
 
-/* ===== TIMER ===== */
+/* timer*/
 #timer {
   border-top: 1px solid #e0e0e0;
   padding: 12px 10px;

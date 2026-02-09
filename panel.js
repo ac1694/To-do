@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ================= ELEMENTS ================= */
+  /* elements */
   const editor = document.getElementById("editor");
   const checkBtn = document.getElementById("checkBtn");
   const clearBtn = document.getElementById("clearBtn");
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const muteBtn = document.getElementById("muteBtn");
   const alarmSound = document.getElementById("alarmSound");
 
-  /* ================= NOTES ================= */
+  /* notes */
   let checklistMode = false;
 
   chrome.storage.local.get(["notesContent"], (res) => {
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
       editor.innerHTML = res.notesContent;
     }
 
-    // Ensure at least one valid line exists
+    
     if (!editor.querySelector(".line")) {
       createTextLine();
     }
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     checkBtn.textContent = checklistMode ? "Checklist ✓" : "Checklist";
   };
 
-  /* ================= KEY HANDLING ================= */
+  /* key handling */
   editor.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Backspace") {
       handleBackspace(e);
 
-      // Remove stray browser-created nodes
+      
       editor.querySelectorAll("div:not(.line)").forEach(d => {
         if (d.innerHTML.trim() === "") d.remove();
       });
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     chrome.storage.local.set({ notesContent: editor.innerHTML });
   }
 
-  /* ================= CARET ================= */
+  /* caret*/
   function placeCaret(el) {
     const r = document.createRange();
     const s = window.getSelection();
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     s.addRange(r);
   }
 
-  /* ================= CHECKLIST BACKSPACE ================= */
+  /* checklist backspace */
   function handleBackspace(e) {
     const sel = window.getSelection();
     if (!sel.rangeCount) return;
@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     saveNotes();
   }
 
-  /* ================= CLEAR BUTTON ================= */
+  /* clear */
   clearBtn.onclick = () => {
     if (!confirm("Clear all notes?")) return;
 
@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     createTextLine();
   };
 
-  /* ================= FORMATTING ================= */
+  /* formatting */
   function focusEditor() {
     editor.focus();
   }
@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     saveNotes();
   };
 
-  /* ================= TIMER ================= */
+  /* Timer*/
   let remainingSeconds = 0;
   let running = false;
   let muted = false;
